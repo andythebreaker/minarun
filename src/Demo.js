@@ -4,14 +4,15 @@ import { MapContainer, TileLayer, Marker, Popup, useMap, Rectangle } from 'react
 import L from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import './css/map_gps.css'
+import { homepageUrl } from './home_url_change.js';
 
 const customIcon = L.icon({
-    iconUrl: "/minarun/logo192.png",
+    iconUrl: `${homepageUrl}/logo192.png`,
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
     tooltipAnchor: [16, -28],
-    shadowUrl: "/minarun/logo192.png",
+    shadowUrl: `${homepageUrl}/logo192.png`,
     shadowSize: [41, 41],
     shadowAnchor: [12, 41],
   });

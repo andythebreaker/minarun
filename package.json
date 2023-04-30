@@ -1,7 +1,7 @@
 {
   "name": "minarun",
   "version": "0.1.0",
-  "homepage": "https://gitname.github.io/minarun",
+  "homepage": "https://gitname.github.io/.",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
@@ -44,6 +44,7 @@
     "postcss-normalize": "^10.0.1",
     "postcss-preset-env": "^7.0.1",
     "prompts": "^2.4.2",
+    "pubhtmlhere": "*",
     "react": "^18.2.0",
     "react-app-polyfill": "^3.0.0",
     "react-detect-offline": "^2.4.5",
@@ -77,20 +78,20 @@
     "workbox-routing": "^6.5.4",
     "workbox-strategies": "^6.5.4",
     "workbox-webpack-plugin": "^6.4.1",
-    "workbox-window": "^6.5.4",
-    "pubhtmlhere":"*"
+    "workbox-window": "^6.5.4"
   },
   "scripts": {
-    "build-v0":"node scripts/build.js && sw-precache --config=sw-config.js --root='build/' --static-file-globs='build/**/!(*map*)'",
+    "build-v0": "node scripts/build.js && sw-precache --config=sw-config.js --root='build/' --static-file-globs='build/**/!(*map*)'",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "webpack-dev-server": "NODE_ENV=development webpack-dev-server",
     "dev": "webpack serve --mode=development",
     "prod": "NODE_ENV=production webpack --mode=production && rm -r build && mv dist build",
-    "serve": "npm run prod && cd build && pubhtml",
+    "serve": "npm run build && cd build && pubhtml",
     "start": "npm run webpack-dev-server",
-    "start-v0":"node scripts/start.js",
-    "build": "npm run prod",
+    "prestart": "node home_url_change.js > src/home_url_change.js",
+    "start-v0": "node scripts/start.js",
+    "build": "npm run prestart && npm run prod",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
@@ -116,6 +117,7 @@
     "babel-plugin-macros": "^3.1.0",
     "copy-webpack-plugin": "^11.0.0",
     "dotenv-webpack": "^8.0.1",
+    "esm": "^3.2.25",
     "sw-precache": "^5.2.1",
     "webpack-cli": "^5.0.2",
     "workbox-webpack-plugin": "^6.5.4"
@@ -174,7 +176,12 @@
   "babel": {
     "presets": [
       "@babel/preset-env",
-     ["@babel/preset-react", {"runtime": "automatic"}]
-  ]
+      [
+        "@babel/preset-react",
+        {
+          "runtime": "automatic"
+        }
+      ]
+    ]
   }
 }

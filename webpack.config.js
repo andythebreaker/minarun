@@ -5,10 +5,8 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const fs = require('fs');
 
+var package_json_homepage = '/';
 function PUBLICURLreplace(indexHtmlPath) {//pathresolvepublicindexhtml) {
-
-  let package_json_homepage = '/';
-
   try {
     const packageJsonPath = path.resolve(__dirname, 'package.json');
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
@@ -95,7 +93,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
-    publicPath: '/minarun/',
+    publicPath: `${package_json_homepage}/`,
   },
   devServer: {
     historyApiFallback: true,
