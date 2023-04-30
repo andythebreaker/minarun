@@ -19,6 +19,7 @@
     "react-leaflet": "^4.2.1",
     "react-scripts": "5.0.1",
     "react-tiny-fab": "^4.0.4",
+    "react-toastify": "^9.1.2",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.4",
     "sweetalert2": "^11.7.3",

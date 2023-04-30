@@ -2,7 +2,7 @@
   height: 100%;
   width: 100%;
   overflow: hidden;
-  transform: scale(1);
+  zoom: 1;
   z-index: 9999;
 }
 
@@ -42,8 +42,27 @@
 }
 
 
-.net-work-ind {
-  position: fixed;
-  top: 0;
-  left: 0;
+.network-indicator {
+  position:fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  background-color: rgba(18, 234, 61, 0.062);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 5px;
+  width: 20vw;
+  height: 20vh;
+}
+
+.network-indicator div {
+  margin-bottom: 10px;
+}
+
+.online {
+  color: green;
+}
+
+.offline {
+  color: red;
 }
