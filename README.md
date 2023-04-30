@@ -10,6 +10,8 @@
 
 `npm run serve`
 
+> 只剩這可會動，然後github 上的那個會動
+
 - 你會需要`pubhtmlhere`這個`npm`套件
 
 #### 編譯
