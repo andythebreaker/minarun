@@ -80,15 +80,17 @@
     "workbox-window": "^6.5.4"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js && sw-precache --config=sw-config.js --root='build/' --static-file-globs='build/**/!(*map*)'",
-    "test": "node scripts/test.js",
+    "build-v0":"node scripts/build.js && sw-precache --config=sw-config.js --root='build/' --static-file-globs='build/**/!(*map*)'",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "webpack-dev-server": "NODE_ENV=development webpack-dev-server",
     "dev": "webpack serve --mode=development",
     "prod": "NODE_ENV=production webpack --mode=production",
-    "serve": "npm run prod && cd dist && pubhtml"
+    "serve": "npm run prod && cd dist && pubhtml",
+    "start": "npm run webpack-dev-server",
+    "start-v0":"node scripts/start.js",
+    "build": "npm run prod",
+    "test": "node scripts/test.js"
   },
   "eslintConfig": {
     "extends": [
