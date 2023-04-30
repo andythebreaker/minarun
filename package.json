@@ -77,7 +77,8 @@
     "workbox-routing": "^6.5.4",
     "workbox-strategies": "^6.5.4",
     "workbox-webpack-plugin": "^6.4.1",
-    "workbox-window": "^6.5.4"
+    "workbox-window": "^6.5.4",
+    "pubhtmlhere":"*"
   },
   "scripts": {
     "build-v0":"node scripts/build.js && sw-precache --config=sw-config.js --root='build/' --static-file-globs='build/**/!(*map*)'",

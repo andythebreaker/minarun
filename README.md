@@ -36,8 +36,13 @@
 
 `npm run build-v0`
 
+## NOTAM
+
+- src/index.html need to be in utf-8
+
 ## TODO
 
 - fix npm run serve
     - pubhtml will default @ build, but need default @ minarun, where minarun inside have build
 - do a auto to check if webpack.config.js 's publicPath: '/minarrun/' == package.json 's "homepage": "https://gitname.github.io/minarun"
+- index html 的 `%` 問題
