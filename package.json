@@ -24,7 +24,14 @@
     "semantic-ui-react": "^2.1.4",
     "sweetalert2": "^11.7.3",
     "sweetalert2-react-content": "^5.0.7",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "workbox-cacheable-response": "^6.5.4",
+    "workbox-core": "^6.5.4",
+    "workbox-expiration": "^6.5.4",
+    "workbox-precaching": "^6.5.4",
+    "workbox-routing": "^6.5.4",
+    "workbox-strategies": "^6.5.4",
+    "workbox-window": "^6.5.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -55,6 +62,8 @@
   "devDependencies": {
     "@types/leaflet": "^1.9.3",
     "babel-plugin-macros": "^3.1.0",
-    "sw-precache": "^5.2.1"
+    "copy-webpack-plugin": "^11.0.0",
+    "sw-precache": "^5.2.1",
+    "workbox-webpack-plugin": "^6.5.4"
   }
 }

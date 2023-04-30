@@ -6,12 +6,12 @@ import 'leaflet/dist/leaflet.css';
 import './css/map_gps.css'
 
 const customIcon = L.icon({
-    iconUrl: "./minarun/logo192.png",
+    iconUrl: "/minarun/logo192.png",
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
     tooltipAnchor: [16, -28],
-    shadowUrl: "./minarun/logo192.png",
+    shadowUrl: "/minarun/logo192.png",
     shadowSize: [41, 41],
     shadowAnchor: [12, 41],
   });
