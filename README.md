@@ -35,3 +35,9 @@
 #### 編譯
 
 `npm run build-v0`
+
+## TODO
+
+- fix npm run serve
+    - pubhtml will default @ build, but need default @ minarun, where minarun inside have build
+- do a auto to check if webpack.config.js 's publicPath: '/minarrun/' == package.json 's "homepage": "https://gitname.github.io/minarun"
