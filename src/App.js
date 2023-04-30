@@ -31,7 +31,7 @@ function App() {
   //mainButtonStyles={mainButtonStyles}
   //actionButtonStyles={actionButtonStyles}
   //style={style}
-  icon={<FontAwesomeIcon icon={icon({name: 'space-station-moon'})} />}
+  icon={<FontAwesomeIcon icon={icon({name: 'bars'})} />}
   //event={event}
   alwaysShowTitle={true}
   onClick={wtf}
