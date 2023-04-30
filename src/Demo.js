@@ -1,9 +1,58 @@
-import React from "react";
+import React ,{useState,useMemo}from "react";
 import { useGeolocated } from "react-geolocated";
-import { MapContainer, TileLayer,Marker,Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer,Marker,Popup, useMap,Rectangle} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-
+const innerBounds = [
+    [49.505, -2.09],
+    [53.505, 2.09],
+  ]
+  const outerBounds = [
+    [50.505, -29.09],
+    [52.505, 29.09],
+  ]
+  
+  const redColor = { color: 'red' }
+  const whiteColor = { color: 'white' }
+  function SetBoundsRectangles() {
+    const [bounds, setBounds] = useState(outerBounds)
+    const map = useMap()
+  
+    const innerHandlers = useMemo(
+      () => ({
+        click() {
+          setBounds(innerBounds)
+          map.fitBounds(innerBounds)
+        },
+      }),
+      [map],
+    )
+    const outerHandlers = useMemo(
+      () => ({
+        click() {
+          setBounds(outerBounds)
+          map.fitBounds(outerBounds)
+        },
+      }),
+      [map],
+    )
+  
+    return (
+      <>
+        <Rectangle
+          bounds={outerBounds}
+          eventHandlers={outerHandlers}
+          pathOptions={bounds === outerBounds ? redColor : whiteColor}
+        />
+        <Rectangle
+          bounds={innerBounds}
+          eventHandlers={innerHandlers}
+          pathOptions={bounds === innerBounds ? redColor : whiteColor}
+        />
+      </>
+    )
+  }
 const Demo = () => {
+
     const { coords, isGeolocationAvailable, isGeolocationEnabled } =
         useGeolocated({
             positionOptions: {
@@ -19,7 +68,7 @@ const Demo = () => {
         } else if (coords) {
             return (
                 <div>
-                    <MapContainer style={{ width: "100vw", height: "100vh" }} center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+                    <MapContainer style={{ width: "100vw", height: "100vh" }} bounds={outerBounds} zoom={13} scrollWheelZoom={false}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -29,6 +78,7 @@ const Demo = () => {
                                 A pretty CSS3 popup. <br /> Easily customizable.
                             </Popup>
                         </Marker>
+                        <SetBoundsRectangles />
                     </MapContainer>
                     <table>
                         <tbody>
