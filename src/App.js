@@ -15,7 +15,7 @@ import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 const MySwal = withReactContent(Swal);
 
 var wtf=MySwal.fire({
-  title: <p>Hello World</p>,
+  title: <p>此應用程式為預覽版，開發者不對使用者所產生的任何後果負責。使用者應該自行審慎評估應用程式的功能和風險，並自負所有風險及責任。我們強烈建議使用者小心使用此應用程式，並盡可能避免在生產環境中使用。使用此應用程式的風險完全由使用者自行承擔。</p>,
   didOpen: () => {
     // `MySwal` is a subclass of `Swal` with all the same instance & static methods
     MySwal.showLoading()
