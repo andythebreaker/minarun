@@ -36,7 +36,7 @@ module.exports = {
   output: {
     path: path.resolve( __dirname, 'dist' ),
     filename: 'main.js',
-    publicPath: '/',
+    publicPath: '/minarrun/',
   },
   devServer: {
     historyApiFallback: true,
