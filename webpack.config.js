@@ -93,7 +93,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
-    publicPath: `${package_json_homepage}/`,
+    publicPath: `/${package_json_homepage}/`,
   },
   devServer: {
     historyApiFallback: true,
