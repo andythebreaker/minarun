@@ -1,7 +1,7 @@
 {
   "name": "minarun",
   "version": "0.1.0",
-  "homepage": "https://gitname.github.io/.",
+  "homepage": "https://gitname.github.io/minarun",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",

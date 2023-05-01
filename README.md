@@ -1,5 +1,7 @@
 # 標題
 
+package.json`"homepage": "https://gitname.github.io/minarun",`一定要對
+
 ## 啟動方針
 
 ### 開發環境
