@@ -37,9 +37,9 @@ function App() {
         //actionButtonStyles={actionButtonStyles}
         //style={style}
         icon={<FontAwesomeIcon icon={icon({ name: 'bars' })} />}
-        //event={event}
+        event={'click'}
         alwaysShowTitle={true}
-        onClick={notify}
+        onClick={null}
       >
         <Action
           text="Email"
