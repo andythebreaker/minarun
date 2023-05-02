@@ -66,14 +66,20 @@ function SetBoundsRectangles() {
         </>
     )
 }
-const Demo = () => {
+const Demo = (props) => {
 
     const { coords, isGeolocationAvailable, isGeolocationEnabled } =
         useGeolocated({
             positionOptions: {
-                enableHighAccuracy: false,
+                enableHighAccuracy: props.myValue,
+                maximumAge: 0,
+                timeout: Infinity,
             },
             userDecisionTimeout: 5000,
+            watchPosition: props.watchPositionCtrl,
+            suppressLocationOnMount: false,
+            //geolocationProvider: navigator.geolocation,
+            isOptimisticGeolocationEnabled: true,
         });
 
     if (!isGeolocationAvailable) {

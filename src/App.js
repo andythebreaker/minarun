@@ -1,4 +1,5 @@
 //import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 import { Online, Offline } from 'react-detect-offline';
 import Demo from './Demo.js';
@@ -30,6 +31,18 @@ function App() {
 
   const notify = () => { toast("Wow so easy!"); console.log("???"); };
 
+  const [myValue, setMyValue] = useState(true);//HighAccuracy=true
+
+  const handleChange = (event) => {
+    setMyValue((myValue==true)?false:true);
+  }
+
+  const [watchPositionCtrl, setWatchPositionCtrl] = useState(true);
+
+  const handleWatchPositionCtrl = (event) => {
+    setWatchPositionCtrl((watchPositionCtrl==true)?false:true);
+  }
+
   return (
     <div className="App">
       <Fab
@@ -40,23 +53,36 @@ function App() {
         event={'click'}
         alwaysShowTitle={true}
         onClick={null}
+        //------------
+        //don't change this!!!
+        //------------
       >
         <Action
-          text="Email"
-          onClick={wtf}
-        ><FontAwesomeIcon icon={icon({ name: 'key' })} /> </Action>
-        <Action
-          text="Help"
-          onClick={wtf}
+          text= "HighAccuracy"
+          onClick={handleChange}
         >
-          <FontAwesomeIcon icon={icon({ name: 'user-secret' })} />  </Action>
+{myValue ? (
+    <FontAwesomeIcon icon={icon({ name: 'map-location-dot' })} />
+  ) : (
+    <FontAwesomeIcon icon={icon({ name: 'location-dot' })} />
+  )}
+          </Action>
+        <Action
+          text="WatchPosition"
+          onClick={handleWatchPositionCtrl}
+        >
+          {watchPositionCtrl ? (
+    <FontAwesomeIcon icon={icon({ name: 'location-arrow' })} />
+  ) : (
+    <FontAwesomeIcon icon={icon({ name: 'map-pin' })} />
+  )} </Action>
       </Fab>
       <div className="network-indicator">
         <div>不管有沒有網路都會顯示的內容</div>
         <Online>有網路時會顯示的內容</Online>
         <Offline>離線時會顯示的內容</Offline>
       </div>
-      <Demo></Demo>
+      <Demo myValue={myValue} watchPositionCtrl={watchPositionCtrl}></Demo>
       <ToastContainer />
     </div>
   );
