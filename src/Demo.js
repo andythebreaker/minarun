@@ -5,6 +5,8 @@ import L from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import './css/map_gps.css'
 import { homepageUrl } from './home_url_change.js';
+import localForage from 'localforage';
+
 
 const customIcon = L.icon({
     iconUrl: `${homepageUrl}/logo192.png`,
@@ -25,6 +27,20 @@ const outerBounds = [
     [50.505, -29.09],
     [52.505, 29.09],
 ]
+
+const storeLocationData = (coords) => {
+    const timestamp = new Date();
+    localForage.getItem('locationData').then((data) => {
+      const locationData = data || [];
+      const { latitude, longitude, altitude, heading, speed } = coords;
+    const locationObj = { latitude, longitude, altitude, heading, speed };
+      locationData.push({
+        coords: locationObj,
+        timestamp,
+      });
+      localForage.setItem('locationData', locationData);
+    });
+  };
 
 const redColor = { color: 'red' }
 const whiteColor = { color: 'white' }
@@ -87,6 +103,7 @@ const Demo = (props) => {
     } else if (!isGeolocationEnabled) {
         return <div>Geolocation is not enabled</div>;
     } else if (coords) {
+        storeLocationData(coords); // Add this line
         return (
             <div>
                 <MapContainer style={{ width: "100vw", height: "100vh" }} center={[coords.latitude, coords.longitude]} zoom={13} scrollWheelZoom={false}>
