@@ -1,7 +1,7 @@
 {
   "name": "minarun",
   "version": "0.1.0",
-  "homepage": "https://gitname.github.io/minarun",
+  "homepage": "https://andythebreaker.github.io/minarun",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
@@ -52,6 +52,7 @@
     "react-dev-utils": "^12.0.1",
     "react-dom": "^18.2.0",
     "react-geolocated": "^4.0.3",
+    "react-indexed-db": "^1.0.12",
     "react-leaflet": "^4.2.1",
     "react-refresh": "^0.11.0",
     "react-tiny-fab": "^4.0.4",

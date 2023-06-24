@@ -14,6 +14,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+//import db
+import { DBConfig } from './DBConfig';
+import { initDB } from 'react-indexed-db';
+ 
+initDB(DBConfig);
 
 const MySwal = withReactContent(Swal);
 
