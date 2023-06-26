@@ -52,7 +52,7 @@
     "react-dev-utils": "*",
     "react-dom": "*",
     "react-geolocated": "*",
-    "react-indexed-db": "*",
+    "react-indexed-db-hook": "*",
     "react-leaflet": "*",
     "react-refresh": "*",
     "react-tiny-fab": "*",
