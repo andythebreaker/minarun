@@ -1,7 +1,7 @@
 {
   "name": "minarun",
   "version": "0.2.0",
-  "homepage": "https://gitname.github.io/minarun",
+  "homepage": "http://192.168.0.101:48489/./",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
@@ -80,7 +80,7 @@
     "workbox-strategies": "^6.5.4",
     "workbox-webpack-plugin": "^6.4.1",
     "workbox-window": "^6.5.4",
-    "react-indexed-db-hook":"^1.0.14"
+    "react-indexed-db-hook": "^1.0.14"
   },
   "scripts": {
     "build-v0": "node scripts/build.js && sw-precache --config=sw-config.js --root='build/' --static-file-globs='build/**/!(*map*)'",

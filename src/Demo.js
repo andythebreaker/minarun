@@ -7,7 +7,6 @@ import './css/map_gps.css'
 import { homepageUrl } from './home_url_change.js';
 import localForage from 'localforage';
 
-
 const customIcon = L.icon({
     iconUrl: `${homepageUrl}/logo192.png`,
     iconSize: [25, 41],

@@ -16,7 +16,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 //import db
 import { DBConfig } from './DBConfig';
-import { initDB } from 'react-indexed-db';
+import { initDB } from 'react-indexed-db-hook';
  
 initDB(DBConfig);
 
