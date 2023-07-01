@@ -2,13 +2,15 @@
 
 package.json`"homepage": "https://gitname.github.io/minarun",`一定要對
 
+> why is gitname not andythebreaker ?
+
 ## 啟動方針
 
-### 開發環境
+### how to run on local
 
-`npm srart`
-
-### 生產環境
+設定:
+"package.json"
+`"homepage": "http://192.168.0.101:48489/./",`
 
 `npm run serve`
 
@@ -16,9 +18,13 @@ package.json`"homepage": "https://gitname.github.io/minarun",`一定要對
 
 - 你會需要`pubhtmlhere`這個`npm`套件
 
+> 好像我嵌入了
+
 #### 編譯
 
 `npm run build`
+
+> 基本上都包好了 這應該可以不用管
 
 #### 部屬
 
