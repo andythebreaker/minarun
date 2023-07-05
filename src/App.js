@@ -46,6 +46,13 @@ const fetchData = async () => {
       title: 'Local Database',
       html: `<pre>${JSON.stringify(dataItems, null, 2)}</pre>`,
       icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Download',
+      cancelButtonText: 'Close',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        downloadData(dataItems);
+      }
     });
   } catch (error) {
     // Handle any error that occurs
