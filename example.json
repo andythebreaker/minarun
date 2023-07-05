@@ -1,0 +1,23 @@
+
+    [
+      {
+        "coords": {
+          "latitude": 87.5948687,
+          "longitude": 87.3328782,
+          "altitude": null,
+          "heading": null,
+          "speed": null
+        },
+        "timestamp": "2023-07-05T10:00:15.707Z"
+      },
+      {
+        "coords": {
+          "latitude": 87.5948687,
+          "longitude": 87.3328782,
+          "altitude": null,
+          "heading": null,
+          "speed": null
+        },
+        "timestamp": "2023-07-05T10:00:17.395Z"
+      }
+    ]

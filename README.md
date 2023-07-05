@@ -54,6 +54,12 @@ package.json`"homepage": "https://gitname.github.io/minarun",`一定要對
 
 `npm run build-v0`
 
+## GPX
+
+DB JSON -> GPX
+
+cat ex.json | python json2gpx.py > test4.gpx
+
 ## NOTAM
 
 - src/index.html need to be in utf-8
