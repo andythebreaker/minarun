@@ -17,6 +17,8 @@ import 'react-toastify/dist/ReactToastify.css';
 //import db
 import { DBConfig } from './DBConfig';
 import { initDB } from 'react-indexed-db-hook';
+import localForage from 'localforage';
+
  
 initDB(DBConfig);
 
@@ -32,6 +34,47 @@ var wtf = MySwal.fire({
   return MySwal.fire(<p>Shorthand works too</p>)
 });
 
+const fetchData = async () => {
+  try {
+    const dataKeys = await localForage.keys();
+    const dataItems = await Promise.all(
+      dataKeys.map((key) => localForage.getItem(key))
+    );
+
+    // Display the data using SweetAlert
+    Swal.fire({
+      title: 'Local Database',
+      html: `<pre>${JSON.stringify(dataItems, null, 2)}</pre>`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Download',
+      cancelButtonText: 'Close',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        downloadData(dataItems);
+      }
+    });
+  } catch (error) {
+    // Handle any error that occurs
+    Swal.fire({
+      title: 'Error! Failed to fetch data from local database',
+      text: String(error),//TODO:生產環境安全錯誤
+      icon: 'error',
+    });
+  }
+};
+
+const downloadData = (data) => {
+  const jsonData = JSON.stringify(data, null, 2);
+  const blob = new Blob([jsonData], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'local-database.json';
+  link.click();
+};
+
+
 function App() {
 
   const notify = () => { toast("Wow so easy!"); console.log("???"); };
@@ -40,6 +83,10 @@ function App() {
 
   const handleChange = (event) => {
     setMyValue((myValue==true)?false:true);
+  }
+
+  const show_db = (event) => {
+    fetchData();
   }
 
   const [watchPositionCtrl, setWatchPositionCtrl] = useState(true);
@@ -62,6 +109,12 @@ function App() {
         //don't change this!!!
         //------------
       >
+        <Action
+          text= "show db"
+          onClick={show_db}
+        >
+    <FontAwesomeIcon icon={icon({ name: 'database' })} />
+          </Action>
         <Action
           text= "HighAccuracy"
           onClick={handleChange}

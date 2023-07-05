@@ -2,6 +2,9 @@
 
 package.json`"homepage": "https://gitname.github.io/minarun",`一定要對
 
+###### 貼心提醒
+有setup.py gui 可以用
+
 > why is gitname not andythebreaker ?
 
 ## 啟動方針
@@ -11,6 +14,9 @@ package.json`"homepage": "https://gitname.github.io/minarun",`一定要對
 設定:
 "package.json"
 `"homepage": "http://192.168.0.101:48489/./",`
+
+###### 貼心提醒
+有setup.py gui 可以用
 
 `npm run serve`
 
@@ -32,6 +38,8 @@ package.json`"homepage": "https://gitname.github.io/minarun",`一定要對
 - 看`.github/workflows/main.yml`
 
 ### 其他
+
+在linux win 間切換，請用setup .py
 
 - i did not put .env (cuz 用不到)
     - 你可以加，反正在生產環境會吃這個檔案
