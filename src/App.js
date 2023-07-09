@@ -18,7 +18,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { DBConfig } from './DBConfig';
 import { initDB } from 'react-indexed-db-hook';
 import localForage from 'localforage';
-
+import { calculateDataVolume } from './unit/JSONvolume';
+import { convertJsonToGpx } from './unit/json2gpx';
  
 initDB(DBConfig);
 
@@ -44,15 +45,18 @@ const fetchData = async () => {
     // Display the data using SweetAlert
     Swal.fire({
       title: 'Local Database',
-      html: `<pre>${JSON.stringify(dataItems, null, 2)}</pre>`,
+      html: `<pre>the gpx data volume:${calculateDataVolume(dataItems)}</pre>`,
       icon: 'info',
       showCancelButton: true,
-      confirmButtonText: 'Download',
-      cancelButtonText: 'Close',
+      showCloseButton: true,
+      confirmButtonText: 'Download(JSON)',
+      cancelButtonText: 'Download(GPX)',
     }).then((result) => {
       if (result.isConfirmed) {
         downloadData(dataItems);
-      }
+      } else if (result.isDismissed) {
+        downloadDataGpx(dataItems[0]);
+      }      
     });
   } catch (error) {
     // Handle any error that occurs
@@ -71,6 +75,16 @@ const downloadData = (data) => {
   const link = document.createElement('a');
   link.href = url;
   link.download = 'local-database.json';
+  link.click();
+};
+
+const downloadDataGpx = (data) => {
+  const gpxData = convertJsonToGpx(data);
+  const blob = new Blob([gpxData], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'run.gpx';
   link.click();
 };
 
