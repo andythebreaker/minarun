@@ -80,7 +80,7 @@ const downloadData = (data) => {
 
 const downloadDataGpx = (data) => {
   const gpxData = convertJsonToGpx(data);
-  const blob = new Blob([gpxData], { type: 'application/json' });
+  const blob = new Blob([gpxData], { type: 'application/gpx+xml' }); // Use GPX MIME type
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
