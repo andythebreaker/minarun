@@ -3,9 +3,12 @@ const xmlbuilder = require('xmlbuilder');
 
 export function convertJsonToGpx(data) {
     const gpx = xmlbuilder.create('gpx', { version: '1.0', encoding: 'UTF-8' })
-      .att('xmlns', 'http://www.topografix.com/GPX/1/1')
-      .att('version', '1.1')
-      .att('creator', 'Your Application');
+      .att('xmlns', 'http://www.topografix.com/GPX/1/0')
+      .att('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance')
+      .att('xsi:schemaLocation', 'http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd')
+      .att('version', '1.0')
+      .att('creator', 'gpx.py -- https://github.com/tkrajina/gpxpy');
+      //<gpx xmlns="http://www.topografix.com/GPX/1/0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd" version="1.0" creator="gpx.py -- https://github.com/tkrajina/gpxpy">
   
     const gpxTrack = gpx.ele('trk');
     const gpxSegment = gpxTrack.ele('trkseg');
