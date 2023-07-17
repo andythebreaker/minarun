@@ -109,24 +109,24 @@ const Demo = (props) => {
         return <div>Geolocation is not enabled</div>;
     } else if (coords) {
         storeLocationData(coords);
-        add({ latitude: coords.latitude, longitude: coords.latitude }).then(
+        add({ latitude: coords.latitude, longitude: coords.longitude }).then(
             event0 => {
-                console.log('ID Generated: ', event0.target.result);
-                if (event0.target.result - 2 >= 0) {
-                    deleteRecord(event0.target.result - 2).then(event1 => {
-                        console.log('Deleted!');
-                        getById(event0.target.result - 1).then(gpsLAST => {
-                            Skm(calculateDistance(gpsLAST.latitude, gpsLAST.latitude, coords.latitude, coords.latitude));
-                        });
-                    });
-                } else {
-                    console.log("NOTHINGTODEL!");
-                }
+              console.log('ID Generated: ', event0.target.result);
+              if (event0.target.result - 2 >= 0) {
+                deleteRecord(event0.target.result - 2).then(event1 => {
+                  console.log('Deleted!');
+                  getById(event0.target.result - 1).then(gpsLAST => {
+                    Skm(calculateDistance(gpsLAST.latitude, gpsLAST.longitude, coords.latitude, coords.longitude));
+                  });
+                });
+              } else {
+                console.log("NOTHINGTODEL!");
+              }
             },
             error => {
-                console.log(error);
+              console.log(error);
             }
-        );
+          );          
         return (
             <div>
                 <MapContainer style={{ width: "100vw", height: "100vh" }} center={[coords.latitude, coords.longitude]} zoom={13} scrollWheelZoom={false}>
