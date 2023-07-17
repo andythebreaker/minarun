@@ -120,24 +120,8 @@ const Demo = (props) => {
                 <table className="ld-float">
                     <tbody>
                         <tr>
-                            <td>latitude</td>
+                            <td>km</td>
                             <td>{coords.latitude}</td>
-                        </tr>
-                        <tr>
-                            <td>longitude</td>
-                            <td>{coords.longitude}</td>
-                        </tr>
-                        <tr>
-                            <td>altitude</td>
-                            <td>{coords.altitude}</td>
-                        </tr>
-                        <tr>
-                            <td>heading</td>
-                            <td>{coords.heading}</td>
-                        </tr>
-                        <tr>
-                            <td>speed</td>
-                            <td>{coords.speed}</td>
                         </tr>
                     </tbody>
                 </table>
