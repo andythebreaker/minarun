@@ -135,7 +135,8 @@
     "esm": "^3.2.25",
     "sw-precache": "^5.2.1",
     "webpack-cli": "^5.0.2",
-    "workbox-webpack-plugin": "^6.5.4"
+    "workbox-webpack-plugin": "^6.5.4",
+    "puppeteer": "~10.4.0"
   },
   "jest": {
     "roots": [

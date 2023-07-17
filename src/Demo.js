@@ -6,6 +6,9 @@ import 'leaflet/dist/leaflet.css';
 import './css/map_gps.css'
 import { homepageUrl } from './home_url_change.js';
 import localForage from 'localforage';
+import { useIndexedDB, AccessDB } from 'react-indexed-db-hook';
+import { calculateDistance } from './calculateDistance.js';
+
 
 const customIcon = L.icon({
     iconUrl: `${homepageUrl}/logo192.png`,
@@ -16,7 +19,7 @@ const customIcon = L.icon({
     shadowUrl: `${homepageUrl}/logo192.png`,
     shadowSize: [41, 41],
     shadowAnchor: [12, 41],
-  });
+});
 
 const innerBounds = [
     [49.505, -2.09],
@@ -30,16 +33,17 @@ const outerBounds = [
 const storeLocationData = (coords) => {
     const timestamp = new Date();
     localForage.getItem('locationData').then((data) => {
-      const locationData = data || [];
-      const { latitude, longitude, altitude, heading, speed } = coords;
-    const locationObj = { latitude, longitude, altitude, heading, speed };
-      locationData.push({
-        coords: locationObj,
-        timestamp,
-      });
-      localForage.setItem('locationData', locationData);
+        const locationData = data || [];
+        const { latitude, longitude, altitude, heading, speed } = coords;
+        const locationObj = { latitude, longitude, altitude, heading, speed };
+        locationData.push({
+            coords: locationObj,
+            timestamp,
+        });
+        localForage.setItem('locationData', locationData);
     });
-  };
+
+};
 
 const redColor = { color: 'red' }
 const whiteColor = { color: 'white' }
@@ -82,6 +86,8 @@ function SetBoundsRectangles() {
     )
 }
 const Demo = (props) => {
+    const { add, deleteRecord, getByID } = useIndexedDB('gps');
+    const [km, Skm] = useState(0.0);
 
     const { coords, isGeolocationAvailable, isGeolocationEnabled } =
         useGeolocated({
@@ -102,7 +108,25 @@ const Demo = (props) => {
     } else if (!isGeolocationEnabled) {
         return <div>Geolocation is not enabled</div>;
     } else if (coords) {
-        storeLocationData(coords); // Add this line
+        storeLocationData(coords);
+        add({ latitude: coords.latitude, longitude: coords.latitude }).then(
+            event0 => {
+                console.log('ID Generated: ', event0.target.result);
+                if (event0.target.result - 2 >= 0) {
+                    deleteRecord(event0.target.result - 2).then(event1 => {
+                        console.log('Deleted!');
+                        getById(event0.target.result - 1).then(gpsLAST => {
+                            Skm(calculateDistance(gpsLAST.latitude, gpsLAST.latitude, coords.latitude, coords.latitude));
+                        });
+                    });
+                } else {
+                    console.log("NOTHINGTODEL!");
+                }
+            },
+            error => {
+                console.log(error);
+            }
+        );
         return (
             <div>
                 <MapContainer style={{ width: "100vw", height: "100vh" }} center={[coords.latitude, coords.longitude]} zoom={13} scrollWheelZoom={false}>
@@ -120,24 +144,8 @@ const Demo = (props) => {
                 <table className="ld-float">
                     <tbody>
                         <tr>
-                            <td>latitude</td>
-                            <td>{coords.latitude}</td>
-                        </tr>
-                        <tr>
-                            <td>longitude</td>
-                            <td>{coords.longitude}</td>
-                        </tr>
-                        <tr>
-                            <td>altitude</td>
-                            <td>{coords.altitude}</td>
-                        </tr>
-                        <tr>
-                            <td>heading</td>
-                            <td>{coords.heading}</td>
-                        </tr>
-                        <tr>
-                            <td>speed</td>
-                            <td>{coords.speed}</td>
+                            <td>km</td>
+                            <td>{km}</td>
                         </tr>
                     </tbody>
                 </table>
