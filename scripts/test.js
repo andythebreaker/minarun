@@ -3,12 +3,14 @@ const url="http://127.0.0.1:48489/index.html";//"https://andythebreaker.github.i
 async function runTest() {
   try {
     // Launch a headless Chrome browser
-    const browser = await puppeteer.launch({ headless: false });
-    const page = await browser.newPage();
-
+    var  browser = await puppeteer.launch({
+      headless: false
+    });  
+    const context = await browser.createIncognitoBrowserContext();
+     var page = await browser.newPage();
     // Enable the 'geolocation' permission
-    const context = browser.defaultBrowserContext();
-    await context.overridePermissions(url, ['geolocation']);
+   // const context = browser.defaultBrowserContext();
+    await context.overridePermissions(url, ['geolocation']);//TODO:notworking
 
     // Emulate a mobile device
     await page.setViewport({ width: 375, height: 812, isMobile: true });
@@ -27,8 +29,10 @@ async function runTest() {
   const latitude = Math.random() * (90 - (-90)) + (-90);
   const longitude = Math.random() * (180 - (-180)) + (-180);
   await page.setGeolocation({ latitude, longitude });
-  await page.waitForTimeout(1000); // Wait for 1 second before changing location
+  await page.waitForTimeout(100); // Wait for 1 second before changing location
 }
+// Wait for a few seconds before get data
+await page.waitForTimeout(10000);//TODO:need wait for data que, check in real world
 
     const indexedDBData = await page.evaluate(async () => {
       const openRequest = indexedDB.open('MyDB');
@@ -70,7 +74,7 @@ async function runTest() {
     await page.waitForTimeout(2000);
 
     // Close the browser
-    //await browser.close();
+    await browser.close();
 
   } catch (error) {
     console.error('Test failed:', error);

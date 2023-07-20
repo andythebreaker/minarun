@@ -1,7 +1,7 @@
 {
   "name": "minarun",
   "version": "0.2.1",
-  "homepage": "https://gitname.github.io/minarun",
+  "homepage": "http://192.168.0.101:48489/./",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
@@ -101,7 +101,7 @@
     "deploy": "gh-pages -d build",
     "webpack-dev-server": "NODE_ENV=development webpack-dev-server",
     "dev": "webpack serve --mode=development",
-    "prod": "NODE_ENV=production webpack --mode=production && rm -r build && mv dist build",
+    "prod": "set NODE_ENV=production && webpack --mode=production && rm -r build && mv dist build",
     "serve": "npm run build && cd build && pubhtml",
     "start": "npm run webpack-dev-server",
     "prestart": "cp pwa/* src/ && cp pwa/* public/ && node home_url_change.js > src/home_url_change.js",
