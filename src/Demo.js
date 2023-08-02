@@ -42,8 +42,27 @@ const storeLocationData = (coords) => {
         });
         localForage.setItem('locationData', locationData);
     });
-
 };
+//const findNewest = async () => {//gpt
+    // Usage example:
+// You can call the findNewest function to get the newest 2 records like this:
+//findNewest().then((newestRecords) => {
+//    console.log(newestRecords);
+//});
+    //const data = await localForage.getItem('locationData');
+    //if (!data || data.length === 0) {
+    //    return []; // Return an empty array if no data is available or the data array is empty
+    //}
+
+    // Sort the locationData array in descending order based on timestamps
+    //data.sort((a, b) => b.timestamp - a.timestamp);
+
+    // Return the two most recent records (or less if there are fewer than 2 records)
+    //return data.slice(0, 2);
+//};
+
+
+
 
 const redColor = { color: 'red' }
 const whiteColor = { color: 'white' }
@@ -109,8 +128,7 @@ const Demo = (props) => {
         return <div>Geolocation is not enabled</div>;
     } else if (coords) {
         storeLocationData(coords);
-//------------------ km
-        try {
+try {
             add({ latitude: coords.latitude, longitude: coords.longitude })
                 .then(event0 => {
                     console.log('ID Generated:', event0);
@@ -174,6 +192,7 @@ const Demo = (props) => {
                             <td>km</td>
                             <td>{km}</td>
                         </tr>
+                        <tr><td>-</td></tr><tr><td>-</td></tr>
                     </tbody>
                 </table>
             </div>
