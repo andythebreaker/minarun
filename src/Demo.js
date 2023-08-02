@@ -111,7 +111,7 @@ const Demo = (props) => {
         storeLocationData(coords);
         add({ latitude: coords.latitude, longitude: coords.longitude }).then(
             event0 => {
-              console.log('ID Generated: ', event0.target.result);
+              console.log('ID Generated[???]: ', event0);
               if (event0.target.result - 2 >= 0) {
                 deleteRecord(event0.target.result - 2).then(event1 => {
                   console.log('Deleted!');
