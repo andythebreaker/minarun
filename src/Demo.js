@@ -109,6 +109,36 @@ const Demo = (props) => {
         return <div>Geolocation is not enabled</div>;
     } else if (coords) {
         storeLocationData(coords);
+//------------------ km
+        try {
+            add({ latitude: coords.latitude, longitude: coords.longitude })
+                .then(event0 => {
+                    console.log('ID Generated:', event0);
+                    if (event0 - 2 >= 0) {
+                        getByID(event0 - 1)
+                            .then(gpsLAST => {
+                                deleteRecord(event0 - 2)
+                                    .then(event1 => {
+                                        console.log('Deleted!', event1);
+                                        console.log("fuck", gpsLAST);
+                                        var tmp_skm = calculateDistance(gpsLAST.latitude, gpsLAST.longitude, coords.latitude, coords.longitude);
+                                        console.log('???', tmp_skm);
+                                        Skm(tmp_skm);
+                                    })
+                                    .catch(error => {
+                                        console.error('Error in getByID:', error);
+                                    });
+                            })
+                            .catch(error => {
+                                console.error('Error in deleteRecord:', error);
+                            });
+                    } else {
+                        console.log('NOTHINGTODEL!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error in add:', error);
+/*------------------------------------
         add({ latitude: coords.latitude, longitude: coords.longitude }).then(
             event0 => {
               console.log('ID Generated[issue]: ', event0);
@@ -118,15 +148,12 @@ const Demo = (props) => {
               if(getById(event0 - 1)){    getById(event0 - 1).then(gpsLAST => {
                     Skm(calculateDistance(gpsLAST.latitude, gpsLAST.longitude, coords.latitude, coords.longitude));
                   });    }else{console.log("getById(event0 - 1) is null !!! (https://github.com/andythebreaker/minarun/edit/main/src/Demo.js@row118)");}
+------------------------------main*/
                 });
-              } else {
-                console.log("NOTHINGTODEL!");
-              }
-            },
-            error => {
-              console.log(error);
-            }
-          );          
+        } catch (error) {
+            console.error('Unhandled error:', error);
+        }
+
         return (
             <div>
                 <MapContainer style={{ width: "100vw", height: "100vh" }} center={[coords.latitude, coords.longitude]} zoom={13} scrollWheelZoom={false}>
