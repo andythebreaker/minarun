@@ -115,9 +115,9 @@ const Demo = (props) => {
               if (event0 - 2 >= 0) {
                 deleteRecord(event0 - 2).then(event1 => {
                   console.log('Deleted!');
-                  getById(event0 - 1).then(gpsLAST => {
+              if(getById(event0 - 1)){    getById(event0 - 1).then(gpsLAST => {
                     Skm(calculateDistance(gpsLAST.latitude, gpsLAST.longitude, coords.latitude, coords.longitude));
-                  });
+                  });    }else{console.log("getById(event0 - 1) is null !!! (https://github.com/andythebreaker/minarun/edit/main/src/Demo.js@row118)");}
                 });
               } else {
                 console.log("NOTHINGTODEL!");
