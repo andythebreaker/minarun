@@ -30,7 +30,7 @@ const outerBounds = [
     [52.505, 29.09],
 ]
 
-const storeLocationData = (coords) => {
+/*const storeLocationData = (coords) => {
     const timestamp = new Date();
     localForage.getItem('locationData').then((data) => {
         const locationData = data || [];
@@ -52,7 +52,7 @@ const storeLocationData = (coords) => {
         });
         localForage.setItem('distDiff', (data_distDiff||0)+dist_diff);
     });});
-};
+};*/
 //const findNewest = async () => {//gpt
     // Usage example:
 // You can call the findNewest function to get the newest 2 records like this:
@@ -117,7 +117,7 @@ function SetBoundsRectangles() {
 const Demo = (props) => {
     // const { add, deleteRecord, getByID } = useIndexedDB('gps');
     //const { add_km, deleteRecord, getByID } = useIndexedDB('gps');
-    // const [km, Skm] = useState("");
+     const [km, set_km] = useState(0);
 
     const { coords, isGeolocationAvailable, isGeolocationEnabled } =
         useGeolocated({
@@ -138,7 +138,27 @@ const Demo = (props) => {
     } else if (!isGeolocationEnabled) {
         return <div>Geolocation is not enabled</div>;
     } else if (coords) {
-        storeLocationData(coords);
+        /*storeLocationData(coords);*/const timestamp = new Date();
+    localForage.getItem('locationData').then((data) => {
+        const locationData = data || [];
+        const { latitude, longitude, altitude, heading, speed } = coords;
+        const locationObj = { latitude, longitude, altitude, heading, speed };
+        locationData.push({
+            coords: locationObj,
+            timestamp,
+        });
+        localForage.setItem('locationData', locationData);
+    });
+    localForage.getItem('locationLast').then((data_locationLast) => {//localForage.getItem('distDiff').then((data_distDiff) => {
+        const { latitude, longitude, altitude, heading, speed } = coords;
+        const dist_diff = (data_locationLast)?calculateDistance(data_locationLast.coords.latitude,data_locationLast.coords.longitude,latitude,longitude) : 0;
+        const locationObj = { latitude, longitude, altitude, heading, speed };
+        localForage.setItem('locationLast', {
+            coords: locationObj,
+            timestamp,
+        });
+        /*localForage.setItem('distDiff', */set_km((/*data_distDiff*/km||0)+dist_diff);
+    });//});
 // try {
 //             add({ time:new Date(),latitude: coords.latitude, longitude: coords.longitude })
 //                 .then(event0 => {
