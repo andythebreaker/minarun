@@ -1,38 +1,40 @@
 const puppeteer = require('puppeteer');
-const url="http://127.0.0.1:48489/index.html";//"https://andythebreaker.github.io/minarun"
+const url = "http://127.0.0.1:48489/index.html";//"https://andythebreaker.github.io/minarun"
+
 async function runTest() {
   try {
-    // Launch a headless Chrome browser
-    var  browser = await puppeteer.launch({
+    var browser = await puppeteer.launch({
       headless: false
-    });  
-    const context = await browser.createIncognitoBrowserContext();
-     var page = await browser.newPage();
-    // Enable the 'geolocation' permission
-   // const context = browser.defaultBrowserContext();
-    await context.overridePermissions(url, ['geolocation']);//TODO:notworking
+    });
 
-    // Emulate a mobile device
+    const context = await browser.createIncognitoBrowserContext();
+    var page = await browser.newPage();
+
+    await context.overridePermissions(url, ['geolocation']);
+
     await page.setViewport({ width: 375, height: 812, isMobile: true });
 
-    // Enable geolocation and set a random location
     await page.setGeolocation({
       latitude: Math.random() * (90 - (-90)) + (-90),
       longitude: Math.random() * (180 - (-180)) + (-180),
     });
 
-    // Navigate to the PWA
     await page.goto(url);
 
- // Generate and set 48 random GPS locations
- for (let i = 0; i < 48; i++) {
-  const latitude = Math.random() * (90 - (-90)) + (-90);
-  const longitude = Math.random() * (180 - (-180)) + (-180);
-  await page.setGeolocation({ latitude, longitude });
-  await page.waitForTimeout(100); // Wait for 1 second before changing location
-}
-// Wait for a few seconds before get data
-await page.waitForTimeout(10000);//TODO:need wait for data que, check in real world
+    // Add the console event listener
+    page.on('console', (message) => {
+      console.log(`Browser Console Log: ${message.text()}`);
+    });
+
+    // Generate and set 48 random GPS locations
+    for (let i = 0; i < 48; i++) {
+      const latitude = Math.random() * (90 - (-90)) + (-90);
+      const longitude = Math.random() * (180 - (-180)) + (-180);
+      await page.setGeolocation({ latitude, longitude });
+      await page.waitForTimeout(100); // Wait for 1 second before changing location
+    }
+
+    await page.waitForTimeout(10000);//TODO:need wait for data que, check in real world
 
     const indexedDBData = await page.evaluate(async () => {
       const openRequest = indexedDB.open('MyDB');
@@ -70,10 +72,8 @@ await page.waitForTimeout(10000);//TODO:need wait for data que, check in real wo
 
     console.log('Indexed DB Data:', JSON.stringify(indexedDBData));
 
-    // Wait for a few seconds before closing the browser
     await page.waitForTimeout(2000);
 
-    // Close the browser
     await browser.close();
 
   } catch (error) {
@@ -81,5 +81,5 @@ await page.waitForTimeout(10000);//TODO:need wait for data que, check in real wo
   }
 }
 
-// Run the test
 runTest();
+

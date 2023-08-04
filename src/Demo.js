@@ -42,6 +42,16 @@ const storeLocationData = (coords) => {
         });
         localForage.setItem('locationData', locationData);
     });
+    localForage.getItem('locationLast').then((data_locationLast) => {localForage.getItem('distDiff').then((data_distDiff) => {
+        const { latitude, longitude, altitude, heading, speed } = coords;
+        const dist_diff = (data_locationLast)?calculateDistance(data_locationLast.coords.latitude,data_locationLast.coords.longitude,latitude,longitude) : 0;
+        const locationObj = { latitude, longitude, altitude, heading, speed };
+        localForage.setItem('locationLast', {
+            coords: locationObj,
+            timestamp,
+        });
+        localForage.setItem('distDiff', (data_distDiff||0)+dist_diff);
+    });});
 };
 //const findNewest = async () => {//gpt
     // Usage example:
@@ -105,8 +115,9 @@ function SetBoundsRectangles() {
     )
 }
 const Demo = (props) => {
-    const { add, deleteRecord, getByID } = useIndexedDB('gps');
-    const [km, Skm] = useState(0.0);
+    // const { add, deleteRecord, getByID } = useIndexedDB('gps');
+    //const { add_km, deleteRecord, getByID } = useIndexedDB('gps');
+    // const [km, Skm] = useState("");
 
     const { coords, isGeolocationAvailable, isGeolocationEnabled } =
         useGeolocated({
@@ -128,34 +139,35 @@ const Demo = (props) => {
         return <div>Geolocation is not enabled</div>;
     } else if (coords) {
         storeLocationData(coords);
-try {
-            add({ latitude: coords.latitude, longitude: coords.longitude })
-                .then(event0 => {
-                    console.log('ID Generated:', event0);
-                    if (event0 - 2 >= 0) {
-                        getByID(event0 - 1)
-                            .then(gpsLAST => {
-                                deleteRecord(event0 - 2)
-                                    .then(event1 => {
-                                        console.log('Deleted!', event1);
-                                        console.log("fuck", gpsLAST);
-                                        var tmp_skm = calculateDistance(gpsLAST.latitude, gpsLAST.longitude, coords.latitude, coords.longitude);
-                                        console.log('???', tmp_skm);
-                                        Skm(tmp_skm);
-                                    })
-                                    .catch(error => {
-                                        console.error('Error in getByID:', error);
-                                    });
-                            })
-                            .catch(error => {
-                                console.error('Error in deleteRecord:', error);
-                            });
-                    } else {
-                        console.log('NOTHINGTODEL!');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error in add:', error);
+// try {
+//             add({ time:new Date(),latitude: coords.latitude, longitude: coords.longitude })
+//                 .then(event0 => {
+//                     //console.log('ID Generated:', event0);
+//                     if (event0 - 2 >= 0) {
+//                         getByID(event0 - 1)
+//                             .then(gpsLAST => {
+//                                 deleteRecord(event0 - 2)
+//                                     .then(event1 => {
+//                                         //console.log('Deleted!', event1);
+//                                         //console.log("fuck", gpsLAST);
+//                                         var tmp_skm = calculateDistance(gpsLAST.latitude, gpsLAST.longitude, coords.latitude, coords.longitude);
+//                                         var txx=(km.length === 0)?JSON.stringify({t:gpsLAST.time,k:tmp_skm}):JSON.stringify({t:gpsLAST.time,k:JSON.parse(km).k+tmp_skm});
+//                                         console.log('km...', txx);
+//                                         Skm(txx);
+//                                     })
+//                                     .catch(error => {
+//                                         console.error('Error in getByID:', error);
+//                                     });
+//                             })
+//                             .catch(error => {
+//                                 console.error('Error in deleteRecord:', error);
+//                             });
+//                     } else {
+//                         console.log('NOTHINGTODEL!');
+//                     }
+//                 })
+//                 .catch(error => {
+//                     console.error('Error in add:', error);
 /*------------------------------------
         add({ latitude: coords.latitude, longitude: coords.longitude }).then(
             event0 => {
@@ -167,10 +179,10 @@ try {
                     Skm(calculateDistance(gpsLAST.latitude, gpsLAST.longitude, coords.latitude, coords.longitude));
                   });    }else{console.log("getById(event0 - 1) is null !!! (https://github.com/andythebreaker/minarun/edit/main/src/Demo.js@row118)");}
 ------------------------------main*/
-                });
-        } catch (error) {
-            console.error('Unhandled error:', error);
-        }
+        //         });
+        // } catch (error) {
+        //     console.error('Unhandled error:', error);
+        // }
 
         return (
             <div>
