@@ -9,7 +9,8 @@
 
 import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
-import { precacheAndRoute } from 'workbox-precaching';
+//import { precacheAndRoute } from 'workbox-precaching';
+import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';//MU
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies';
 import {CacheableResponsePlugin} from 'workbox-cacheable-response';
@@ -19,7 +20,14 @@ clientsClaim();
 /**
  * We are not wrapping it in a 'message' event as per the new update.
  * @see https://developers.google.com/web/tools/workbox/modules/workbox-core
- */
+ *
+ * [OLD WAY]
+ * self.addEventListener('message', (event) => {
+ *   if (event.data && event.data.type === 'SKIP_WAITING') {
+ *     self.skipWaiting();
+ *   }
+ * });
+*/
 self.skipWaiting();
 
 /**

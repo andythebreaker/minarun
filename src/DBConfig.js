@@ -3,12 +3,12 @@ export const DBConfig = {
     version: 1,
     objectStoresMeta: [
       {
-        store: 'gps',
+        store: 'dist',
         storeConfig: { keyPath: 'id', autoIncrement: true },
         storeSchema: [
-          { name: 'time', keypath: 'time', options: { unique: true } },
-          { name: 'latitude', keypath: 'latitude', options: { unique: false } },
-          { name: 'longitude', keypath: 'longitude', options: { unique: false } }
+          { name: 'uni', keypath: 'time', options: { unique: false } },
+          //{ name: 'latitude', keypath: 'latitude', options: { unique: false } },
+          //{ name: 'longitude', keypath: 'longitude', options: { unique: false } }
         ]
       }
     ]

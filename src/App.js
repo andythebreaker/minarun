@@ -96,7 +96,7 @@ function App() {
   const [myValue, setMyValue] = useState(true);//HighAccuracy=true
 
   const handleChange = (event) => {
-    setMyValue((myValue==true)?false:true);
+    setMyValue((myValue===true)?false:true);
   }
 
   const show_db = (event) => {
@@ -106,7 +106,7 @@ function App() {
   const [watchPositionCtrl, setWatchPositionCtrl] = useState(true);
 
   const handleWatchPositionCtrl = (event) => {
-    setWatchPositionCtrl((watchPositionCtrl==true)?false:true);
+    setWatchPositionCtrl((watchPositionCtrl===true)?false:true);
   }
 
   return (
