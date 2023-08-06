@@ -14,6 +14,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAudio } from '../modules/react-music-hook/index.js';
+//import song from './assets/songs.mp3';
 //import db
 import { DBConfig } from './DBConfig';
 import { initDB } from 'react-indexed-db-hook';
@@ -90,6 +92,10 @@ const downloadDataGpx = (data) => {
 
 
 function App() {
+  const { isPlaying, play, pause, toggle } = useAudio({
+    src: "./assets/songs.mp3",
+    loop: true,
+});
 
   const notify = () => { toast("Wow so easy!"); console.log("???"); };
 
@@ -151,6 +157,7 @@ function App() {
       </Fab>
       <div className="network-indicator">
         <div>不管有沒有網路都會顯示的內容</div>
+        <button onClick={toggle}>{isPlaying ? "Pause" : "Play"}</button>
         <Online>有網路時會顯示的內容</Online>
         <Offline>離線時會顯示的內容</Offline>
       </div>

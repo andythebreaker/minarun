@@ -1,7 +1,7 @@
 {
   "name": "minarun",
   "version": "0.2.1",
-  "homepage": "https://gitname.github.io/minarun",
+  "homepage": "http://192.168.0.101:48489/./",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
@@ -39,6 +39,7 @@
     "eslint-webpack-plugin": "^3.1.1",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",
+    "gps-distance": "^0.0.4",
     "has-flag": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
     "identity-obj-proxy": "^3.0.0",
@@ -101,7 +102,7 @@
     "deploy": "gh-pages -d build",
     "webpack-dev-server": "NODE_ENV=development webpack-dev-server",
     "dev": "webpack serve --mode=development",
-    "prod": "NODE_ENV=production webpack --mode=production && rm -r build && mv dist build",
+    "prod": "set NODE_ENV=production && webpack --mode=production && rm -r build && mv dist build",
     "serve": "npm run build && cd build && pubhtml",
     "start": "npm run webpack-dev-server",
     "prestart": "cp pwa/* src/ && cp pwa/* public/ && node home_url_change.js > src/home_url_change.js",
@@ -133,10 +134,10 @@
     "copy-webpack-plugin": "^11.0.0",
     "dotenv-webpack": "^8.0.1",
     "esm": "^3.2.25",
+    "puppeteer": "~10.4.0",
     "sw-precache": "^5.2.1",
     "webpack-cli": "^5.0.2",
-    "workbox-webpack-plugin": "^6.5.4",
-    "puppeteer": "~10.4.0"
+    "workbox-webpack-plugin": "^6.5.4"
   },
   "jest": {
     "roots": [
