@@ -7,7 +7,9 @@ import './css/map_gps.css'
 import { homepageUrl } from './home_url_change.js';
 import localForage from 'localforage';
 import { useIndexedDB, AccessDB } from 'react-indexed-db-hook';
-import { calculateDistance } from './calculateDistance.js';
+//import { calculateDistance } from './calculateDistance.js';
+//!important [note30] import & require 混用不會死诶 cool
+var distance = require('gps-distance');
 
 var gps_prv;
 var km=0.0;
@@ -47,7 +49,7 @@ localForage.getItem('locationData').then((data) => {
 //localForage.getItem('locationLast').then((data_locationLast) => {//localForage.getItem('distDiff').then((data_distDiff) => {
     const { latitude, longitude, altitude, heading, speed } = coords;
     //-const time_prev_LT_now = data_locationLast<timestamp;
-    /*const dist_diff =*/km+=((/*data_locationLast*/gps_prv)?calculateDistance(
+    /*const dist_diff =*/km+=((/*data_locationLast*/gps_prv)?distance(//calculateDistance(
         //data_locationLast
         gps_prv.coords.latitude,
         //data_locationLast
