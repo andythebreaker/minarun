@@ -83,3 +83,5 @@ object-assign
 //! moment.js
 
 //! moment.js locale configuration
+
+//!important [note30] import & require 混用不會死诶 cool

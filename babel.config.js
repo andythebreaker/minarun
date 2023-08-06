@@ -26,7 +26,9 @@ module.exports = function (api) {
 //  api.cache.using(fn); // api.cache(fn)
 
   return {
-    plugins: ['macros'],
+    plugins: ['macros',
+    //"./babel-plugin-transform-use-audio-src.macro"],
+    "preval"],
   }
    
 

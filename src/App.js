@@ -22,7 +22,9 @@ import { initDB } from 'react-indexed-db-hook';
 import localForage from 'localforage';
 import { calculateDataVolume } from './unit/JSONvolume';
 import { convertJsonToGpx } from './unit/json2gpx';
- 
+
+import preval from 'babel-plugin-preval/macro';//import {wtfMACRO} from '../babel-plugin-transform-use-audio-src.macro';
+
 initDB(DBConfig);
 
 const MySwal = withReactContent(Swal);
@@ -58,7 +60,7 @@ const fetchData = async () => {
         downloadData(dataItems);
       } else if (result.isDismissed) {
         downloadDataGpx(dataItems[0]);
-      }      
+      }
     });
   } catch (error) {
     // Handle any error that occurs
@@ -92,17 +94,20 @@ const downloadDataGpx = (data) => {
 
 
 function App() {
-  const { isPlaying, play, pause, toggle } = useAudio({
-    src: "./assets/songs.mp3",
-    loop: true,
-});
+  const { isPlaying, play, pause, toggle } = useAudio(/*wtfMACRO(*/{
+    src: preval`
+    const fs = require('fs')
+  module.exports = fs.readFileSync(require.resolve('./greeting.txt'), 'utf8')
+    `,//"./assets/songs.mp3",
+ loop: true,
+  });//);
 
   const notify = () => { toast("Wow so easy!"); console.log("???"); };
 
   const [myValue, setMyValue] = useState(true);//HighAccuracy=true
 
   const handleChange = (event) => {
-    setMyValue((myValue===true)?false:true);
+    setMyValue((myValue === true) ? false : true);
   }
 
   const show_db = (event) => {
@@ -112,7 +117,7 @@ function App() {
   const [watchPositionCtrl, setWatchPositionCtrl] = useState(true);
 
   const handleWatchPositionCtrl = (event) => {
-    setWatchPositionCtrl((watchPositionCtrl===true)?false:true);
+    setWatchPositionCtrl((watchPositionCtrl === true) ? false : true);
   }
 
   return (
@@ -125,35 +130,35 @@ function App() {
         event={'click'}
         alwaysShowTitle={true}
         onClick={null}
-        //------------
-        //don't change this!!!
-        //------------
+      //------------
+      //don't change this!!!
+      //------------
       >
         <Action
-          text= "show db"
+          text="show db"
           onClick={show_db}
         >
-    <FontAwesomeIcon icon={icon({ name: 'database' })} />
-          </Action>
+          <FontAwesomeIcon icon={icon({ name: 'database' })} />
+        </Action>
         <Action
-          text= "HighAccuracy"
+          text="HighAccuracy"
           onClick={handleChange}
         >
-{myValue ? (
-    <FontAwesomeIcon icon={icon({ name: 'map-location-dot' })} />
-  ) : (
-    <FontAwesomeIcon icon={icon({ name: 'location-dot' })} />
-  )}
-          </Action>
+          {myValue ? (
+            <FontAwesomeIcon icon={icon({ name: 'map-location-dot' })} />
+          ) : (
+            <FontAwesomeIcon icon={icon({ name: 'location-dot' })} />
+          )}
+        </Action>
         <Action
           text="WatchPosition"
           onClick={handleWatchPositionCtrl}
         >
           {watchPositionCtrl ? (
-    <FontAwesomeIcon icon={icon({ name: 'location-arrow' })} />
-  ) : (
-    <FontAwesomeIcon icon={icon({ name: 'map-pin' })} />
-  )} </Action>
+            <FontAwesomeIcon icon={icon({ name: 'location-arrow' })} />
+          ) : (
+            <FontAwesomeIcon icon={icon({ name: 'map-pin' })} />
+          )} </Action>
       </Fab>
       <div className="network-indicator">
         <div>不管有沒有網路都會顯示的內容</div>
