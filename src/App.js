@@ -15,6 +15,7 @@ import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAudio } from '../modules/react-music-hook/index.js';
+import preval from 'babel-plugin-preval/macro';
 //import song from './assets/songs.mp3';
 //import db
 import { DBConfig } from './DBConfig';
@@ -22,8 +23,6 @@ import { initDB } from 'react-indexed-db-hook';
 import localForage from 'localforage';
 import { calculateDataVolume } from './unit/JSONvolume';
 import { convertJsonToGpx } from './unit/json2gpx';
-
-import preval from 'babel-plugin-preval/macro';//import {wtfMACRO} from '../babel-plugin-transform-use-audio-src.macro';
 
 initDB(DBConfig);
 
@@ -94,13 +93,13 @@ const downloadDataGpx = (data) => {
 
 
 function App() {
-  const { isPlaying, play, pause, toggle } = useAudio(/*wtfMACRO(*/{
+  const { isPlaying, play, pause, toggle } = useAudio({
     src: preval`
     const fs = require('fs')
   module.exports = fs.readFileSync(require.resolve('./greeting.txt'), 'utf8')
-    `,//"./assets/songs.mp3",
+    `,//"./assets/songs.mp3"
  loop: true,
-  });//);
+  });
 
   const notify = () => { toast("Wow so easy!"); console.log("???"); };
 
