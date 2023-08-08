@@ -17,7 +17,7 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const paths = require('./paths');
-//console.error(paths);
+console.error(paths);
 const modules = require('./modules');
 const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
@@ -92,12 +92,16 @@ const hasJsxRuntime = (() => {
 module.exports = function (webpackEnv) {
   const isEnvDevelopment = webpackEnv === 'development';
   const isEnvProduction = webpackEnv === 'production';
-
+  
+  //**DEBUG */
+  console.error(isEnvProduction);
+  console.error(process.env);
+  
   // Variable used for enabling profiling in Production
   // passed into alias object. Uses a flag if passed into the build command
   const isEnvProductionProfile =
-    isEnvProduction && process.argv.includes('--profile');
-
+  isEnvProduction && process.argv.includes('--profile');
+  
   // We will provide `paths.publicUrlOrPath` to our app
   // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
   // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
@@ -665,12 +669,12 @@ module.exports = function (webpackEnv) {
       }),
       // Generate a service worker script that will precache, and keep up to date,
       // the HTML & assets that are part of the webpack build.
-      isEnvProduction &&
-      fs.existsSync(swSrc) &&
+      //!important//isEnvProduction &&
+      //!important//fs.existsSync(process.env.swMainJsFile || swSrc) &&
       new WorkboxWebpackPlugin.InjectManifest({
         //swSrc,
         //TODO:sw?
-        swSrc: "./src/src-sw.js",
+        swSrc: process.env.swMainJsFile || swSrc,
         swDest: "sw.js",
         dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
         exclude: [/\.map$/, /asset-manifest\.json$/, /LICENSE/],

@@ -100,11 +100,11 @@
     "deploy": "gh-pages -d build",
     "webpack-dev-server": "set NODE_ENV=development && webpack-dev-server",
     "dev": "webpack serve --mode=development",
-    "prod": "set NODE_ENV=production && && webpack --mode=production && rm -r build && mv dist build",
+    "prod": "webpack --mode=production && rm -r build && mv dist build",
     "serve": "npm run build && cd build && pubhtml",
     "start": "npm run webpack-dev-server",
     "prestart": "cp pwa/* src/ && cp pwa/* public/ && node home_url_change.js > src/home_url_change.js",
-    "start-v0": "node scripts/start.js",
+    "start-v0": "node ./packageJsonRunTime/envSETUP.js && node scripts/start.js",
     "build": "npm run prestart && npm run prod",
     "test": "node scripts/test.js"
   },
