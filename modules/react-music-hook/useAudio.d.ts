@@ -7,7 +7,7 @@
  *
  */
 interface optionsType {
-    src: string;
+    src: string | string[];
     loop?: boolean;
     volume?: number;
     muted?: boolean;

@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useAudio } from '../modules/react-music-hook/index.js';
+//import { useAudio } from '../modules/react-music-hook/index.js';
 import preval from 'babel-plugin-preval/macro';
 //import song from './assets/songs.mp3';
 //import db
@@ -91,15 +91,15 @@ const downloadDataGpx = (data) => {
   link.click();
 };
 
-
 function App() {
-  const { isPlaying, play, pause, toggle } = useAudio({
+  /*const { isPlaying, play, pause, toggle } = useAudio({
     src: preval`
     const fs = require('fs')
-  module.exports = fs.readFileSync(require.resolve('./greeting.txt'), 'utf8')
+  module.exports = JSON.parse(fs.readFileSync(require.resolve('./greeting.txt'), 'utf8'))
     `,//"./assets/songs.mp3"
  loop: true,
-  });
+  });*///        <!--button onClick={toggle}>{isPlaying ? "Pause" : "Play"}</button-->
+
 
   const notify = () => { toast("Wow so easy!"); console.log("???"); };
 
@@ -161,7 +161,6 @@ function App() {
       </Fab>
       <div className="network-indicator">
         <div>不管有沒有網路都會顯示的內容</div>
-        <button onClick={toggle}>{isPlaying ? "Pause" : "Play"}</button>
         <Online>有網路時會顯示的內容</Online>
         <Offline>離線時會顯示的內容</Offline>
       </div>

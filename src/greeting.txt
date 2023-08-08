@@ -1,1 +1,1 @@
-./assets/songs.mp3
+["./assets/songs.mp3","./assets/song.mp3"]

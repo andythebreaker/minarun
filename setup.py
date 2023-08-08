@@ -9,9 +9,11 @@ def replace_url(url, to_local):
 
 def replace_env(url, to_local):
     if to_local:
-        return re.sub(r'NODE_ENV=production', r'set NODE_ENV=production &&', url)
+        var_tmp = re.sub(r'NODE_ENV=production', r'set NODE_ENV=production &&', url)
+        return re.sub(r'NODE_ENV=development', r'set NODE_ENV=development &&', var_tmp)
     else:
-        return re.sub(r'set NODE_ENV=production &&', r'NODE_ENV=production', url)
+        var_tmp = re.sub(r'set NODE_ENV=production &&', r'NODE_ENV=production', url)
+        return re.sub(r'set NODE_ENV=development &&', r'NODE_ENV=development', var_tmp)
 
 def read_package_json():
     with open('./package.json', 'r') as f:
