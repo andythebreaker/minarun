@@ -1,11 +1,16 @@
 {
   "name": "minarun-core",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "homepage": "https://gitname.github.io/minarun",
-  "private": true,
-  "dependencies": {},
-  "scripts": {
-    "test": "node src/test.js"
+  "private": false,
+  "main": "src/index.js",
+  "dependencies": {
+    "make-fetch-happen": "*"
   },
-  "devDependencies": {}
+  "scripts": {
+    "test": "npm i && node src/test.js"
+  },
+  "devDependencies": {
+    "minarun-core": "0.0.3"
+  }
 }
