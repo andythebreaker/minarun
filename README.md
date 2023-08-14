@@ -1,0 +1,3 @@
+need ffmpeg
+
+node20
