@@ -199,6 +199,7 @@ async function devtime_P_ts_file_read_and_find_howhow(fp) {/**ts單檔路徑 */
 
 async function main(dirPath) {
     /**主工作階段 */
+    have_Provider=[];
     /**輔助函式:找尋適當ts */
     //!important!jump
     await traverseDir(dirPath);
