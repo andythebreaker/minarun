@@ -1,5 +1,3 @@
-//TODO ts init
-
 /**setting */
 const mute = false;//TODO move
 const donothing_print_console_log = false;
@@ -9,9 +7,9 @@ const PRINT_ansjson_h512_digest_hex_undefined_target_speech_ts_read = true;
 const PRINT_this_word_hit_target_speech_ts_read = true;
 const PRINT_mp3_str_TScache_no_hit_body_data_text = true;
 const PRINT_mp3_str_TScache_no_hit_mp3listM = true;
-const PRINT_devtime_P_ts_file_read_and_find_howhow_match1=true;
-const PRINT_devtime_P_ts_file_read_and_find_howhow_No_matches_found=true;
-const PRINT_main_have_PP=true;
+const PRINT_devtime_P_ts_file_read_and_find_howhow_match1 = true;
+const PRINT_devtime_P_ts_file_read_and_find_howhow_No_matches_found = true;
+const PRINT_main_have_PP = true;
 
 /**import */
 const util = require('util');
@@ -26,7 +24,7 @@ const fetch = require('make-fetch-happen').defaults({
 });//TODO cachePath
 
 /**全域:preval路徑陣列 */
-const have_Provider = [];
+var have_Provider = [];
 
 function donothing(log_trace) {
     if (donothing_print_console_log) console.log(consoleControl.color('blue', 'bgRed', 'bold') + "donothing: " + String(log_trace) + consoleControl.color('reset'));
@@ -109,19 +107,45 @@ async function traverseDir(currentPath) {/**輸入'./src或主ts群資料夾' */
     }
 }
 
-async function bash_ffmpeg() {//TODO input args
+async function bash_ffmpeg(mp3_str_text_x1, ansjson_G) {//TODO input args
     try {
-        const { stdout, stderr } = await exec('ffmpeg -y -f concat -i tmp_ffmpeg_mix.txt -c copy output.mp3');
+        const { stdout, stderr } = await exec('ffmpeg -y -f concat -i tmp_ffmpeg_mix.txt -c copy output.mp3');//TODO output.mp3 and mp3 list loaction setting
 
         console.log(stdout, stderr);
-
         console.log("finish");
-
         //mp3 to hex
+        try {
+            const mp3bin = await fs.readFile('./output.mp3');
+            const hexString = Buffer.from(mp3bin).toString('hex');
+            console.log(hexString);
 
-        //hex to ts
+            const h512 = createHash("sha512");
+            h512.update(mp3_str_text_x1, 'utf8');//TODO512
+            await fs.writeFile(speech_index_ts, `
+/*do not modify this file, created by preval*/
+import { sha512 } from '@noble/hashes/sha512'; 
+import { bytesToHex as toHex } from '@noble/hashes/utils';
 
-        //rm tmp
+interface Bot {
+    [key: string]: string;
+}
+
+const bot: Bot = {
+    ${ansjson_G}
+    ,
+    _${h512.digest('hex')}: "${hexString}"
+};
+
+const howhow: (words: string) => string = (words) => {
+    return bot['_'+String(toHex(sha256(words)))];
+};
+
+export default howhow;
+`);
+
+        } catch (error_mp3bin) {
+            console.log('[bash_ffmpeg] Error reading input file:', error_mp3bin);
+        }
 
     } catch (error) {
         console.error('[bash_ffmpeg] ', error.message);
@@ -140,14 +164,14 @@ async function target_speech_ts_read(mp3_str_text_x1) {
             const regex_replace = /([^, \n:]+) *:/gm;
             const subst = '"$1":';
             const replace_result = (SOLjsonbot_finder[0][1]).replace(regex_replace, subst);
-            var ansjson = JSON.parse('{' + replace_result + '}');//TODO globl
+            var ansjson = JSON.parse('{' + replace_result + '}');
             const h512 = createHash("sha512");
             h512.update(mp3_str_text_x1, 'utf8');
-            if (ansjson[h512.digest('hex')] === undefined) {
+            if (ansjson[`_${h512.digest('hex')}`] === undefined) {
                 /**mp3字串資料尚未建立 */
                 if (PRINT_ansjson_h512_digest_hex_undefined_target_speech_ts_read) console.log(log.ok(`   ansjson[h512.digest('hex')]===undefined`));
                 //!important!jump
-                await mp3_str_TScache_no_hit(mp3_str_text_x1);
+                await mp3_str_TScache_no_hit(mp3_str_text_x1, SOLjsonbot_finder[0][1]);
             } else {
                 /**mp3字串資料已建立 */
                 if (PRINT_this_word_hit_target_speech_ts_read) console.log(log.ok(`   this word hit`));//**exit*/
@@ -156,8 +180,10 @@ async function target_speech_ts_read(mp3_str_text_x1) {
     } catch (error_for_file_cant_read) { console.log('[target_speech_ts_read] ', error_for_file_cant_read); }
 }
 
-async function mp3_str_TScache_no_hit(mp3_str_text_x1) {
-    const res = await fetch('https://api.zhconvert.org/convert?converter=Pinyin&text=' + mp3_str_text_x1 + '&prettify=1');
+async function mp3_str_TScache_no_hit(mp3_str_text_x1, ansjson_G) {/**待解析字串，繼承JSON MP3目標*/
+    const res = await fetch('https://api.zhconvert.org/convert?converter=Pinyin&text=' + mp3_str_text_x1 + '&prettify=1', {
+        cache: 'force-cache' // forces a conditional request
+    });
     const body = await res.json();
     if (PRINT_mp3_str_TScache_no_hit_body_data_text) console.log(log.ok(`   ${body.data.text}`));
     const wordsArray = body.data.text.split(' ');
@@ -171,11 +197,11 @@ async function mp3_str_TScache_no_hit(mp3_str_text_x1) {
     if (PRINT_mp3_str_TScache_no_hit_mp3listM) console.log(log.ok(`   ${mp3listM}`));
     await fs.writeFile('tmp_ffmpeg_mix.txt', mp3listM);
     //!important!jump
-    await bash_ffmpeg();
+    await bash_ffmpeg(mp3_str_text_x1, ansjson_G);
 }
 
 async function devtime_P_ts_file_read_and_find_howhow(fp) {/**ts單檔路徑 */
-/**在src ts中找howhow(字串)並執行 */
+    /**在src ts中找howhow(字串)並執行 */
     const regexPattern = /howhow\( *"([^()]+)" *\)/gm;//TODO 正則表達式缺陷
     try {
         const data = await fs.readFile(fp, 'utf8');
@@ -199,7 +225,7 @@ async function devtime_P_ts_file_read_and_find_howhow(fp) {/**ts單檔路徑 */
 
 async function main(dirPath) {
     /**主工作階段 */
-    have_Provider=[];
+    have_Provider = [];
     /**輔助函式:找尋適當ts */
     //!important!jump
     await traverseDir(dirPath);
@@ -216,3 +242,4 @@ async function main(dirPath) {
 module.exports = main;
 
 //TODO setting
+//TODO Error counting TypeScript files:???
