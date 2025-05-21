@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  minarun-dev:
+    build:
+      context: .
+      args:
+        NODE_ENV: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src
+    environment:
+      - NODE_ENV=development
+    command: npm start
+
+  minarun-local:
+    build:
+      context: .
+      args:
+        NODE_ENV: local
+    ports:
+      - "48489:48489"
+    environment:
+      - NODE_ENV=development
+    command: npm run serve
+
+  minarun-prod:
+    build:
+      context: .
+      args:
+        NODE_ENV: production
+    ports:
+      - "80:3000"
+    environment:
+      - NODE_ENV=production
+    command: npm run serve

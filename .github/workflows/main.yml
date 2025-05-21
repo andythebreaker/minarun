@@ -13,8 +13,28 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.x'
+        cache: 'npm'
+    
+    - name: Initialize project
+      run: |
+        chmod +x ./init-project.sh
+        ./init-project.sh
+    
+    - name: Setup production environment
+      run: |
+        node config/env-manager.js production
+    
+    - name: Build application
+      run: npm run build:prod
+      
     - name: Deploy react app to github pages
-      uses: tanwanimohit/deploy-react-to-ghpages@v1.0.1
+      uses: JamesIves/github-pages-deploy-action@v4
       with: 
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        folder: build
+        branch: gh-pages
+        token: ${{ secrets.GITHUB_TOKEN }}

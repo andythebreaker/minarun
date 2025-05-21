@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>MinaRun Environment Selector</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    
+    h1 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+      text-align: center;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    
+    .section {
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 4px;
+      background-color: #f1f3f5;
+    }
+    
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: #2c3e50;
+    }
+    
+    .env-button, .action-button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 8px;
+      border: none;
+      border-radius: 4px;
+      background-color: #3498db;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .env-button:hover, .action-button:hover {
+      background-color: #2980b9;
+    }
+    
+    .env-button.active {
+      background-color: #27ae60;
+    }
+    
+    .action-button:disabled {
+      background-color: #bdc3c7;
+      cursor: not-allowed;
+    }
+    
+    #status {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+      background-color: #f1f3f5;
+      font-family: monospace;
+      white-space: pre-wrap;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>MinaRun Environment Selector</h1>
+    
+    <div class="section">
+      <div class="section-title">1. Select Environment</div>
+      <button id="dev-env" class="env-button">Development (localhost)</button>
+      <button id="local-env" class="env-button">Local Network (192.168.0.101)</button>
+      <button id="prod-env" class="env-button">Production (GitHub Pages)</button>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">2. Select Action</div>
+      <button id="start-action" class="action-button" disabled>Start Development Server</button>
+      <button id="build-action" class="action-button" disabled>Build Application</button>
+      <button id="serve-action" class="action-button" disabled>Build and Serve</button>
+    </div>
+    
+    <div id="status">Status: Ready</div>
+  </div>
+
+  <script>
+    // Reference to the environment buttons
+    const devEnvBtn = document.getElementById('dev-env');
+    const localEnvBtn = document.getElementById('local-env');
+    const prodEnvBtn = document.getElementById('prod-env');
+    
+    // Reference to the action buttons
+    const startActionBtn = document.getElementById('start-action');
+    const buildActionBtn = document.getElementById('build-action');
+    const serveActionBtn = document.getElementById('serve-action');
+    
+    // Reference to the status area
+    const statusArea = document.getElementById('status');
+    
+    // Current selected environment
+    let currentEnv = null;
+    
+    // Enable action buttons when an environment is selected
+    function enableActionButtons() {
+      startActionBtn.disabled = false;
+      buildActionBtn.disabled = false;
+      serveActionBtn.disabled = false;
+    }
+    
+    // Disable action buttons
+    function disableActionButtons() {
+      startActionBtn.disabled = true;
+      buildActionBtn.disabled = true;
+      serveActionBtn.disabled = true;
+    }
+    
+    // Update status display
+    function updateStatus(message) {
+      const timestamp = new Date().toLocaleTimeString();
+      statusArea.textContent += `\n[${timestamp}] ${message}`;
+      statusArea.scrollTop = statusArea.scrollHeight;
+    }
+    
+    // Set the active environment button
+    function setActiveEnvButton(button) {
+      // Clear all active states
+      [devEnvBtn, localEnvBtn, prodEnvBtn].forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Set the active button
+      button.classList.add('active');
+    }
+    
+    // Set up environment button handlers
+    devEnvBtn.addEventListener('click', () => {
+      setActiveEnvButton(devEnvBtn);
+      currentEnv = 'development';
+      updateStatus('Setting up Development environment...');
+      
+      // Send message to main process
+      window.electronAPI.setEnvironment(currentEnv);
+    });
+    
+    localEnvBtn.addEventListener('click', () => {
+      setActiveEnvButton(localEnvBtn);
+      currentEnv = 'local';
+      updateStatus('Setting up Local Network environment...');
+      
+      // Send message to main process
+      window.electronAPI.setEnvironment(currentEnv);
+    });
+    
+    prodEnvBtn.addEventListener('click', () => {
+      setActiveEnvButton(prodEnvBtn);
+      currentEnv = 'production';
+      updateStatus('Setting up Production environment...');
+      
+      // Send message to main process
+      window.electronAPI.setEnvironment(currentEnv);
+    });
+    
+    // Set up action button handlers
+    startActionBtn.addEventListener('click', () => {
+      if (!currentEnv) return;
+      
+      disableActionButtons();
+      updateStatus(`Starting development server in ${currentEnv} environment...`);
+      
+      // Send message to main process
+      window.electronAPI.runCommand('start', currentEnv);
+    });
+    
+    buildActionBtn.addEventListener('click', () => {
+      if (!currentEnv) return;
+      
+      disableActionButtons();
+      updateStatus(`Building application in ${currentEnv} environment...`);
+      
+      // Send message to main process
+      window.electronAPI.runCommand('build', currentEnv);
+    });
+    
+    serveActionBtn.addEventListener('click', () => {
+      if (!currentEnv) return;
+      
+      disableActionButtons();
+      updateStatus(`Building and serving application in ${currentEnv} environment...`);
+      
+      // Send message to main process
+      window.electronAPI.runCommand('serve', currentEnv);
+    });
+    
+    // Handle environment set result
+    window.electronAPI.onEnvironmentSet((event, data) => {
+      if (data.success) {
+        updateStatus(data.message);
+        enableActionButtons();
+      } else {
+        updateStatus(`Error: ${data.message}`);
+        disableActionButtons();
+      }
+    });
+    
+    // Handle command result
+    window.electronAPI.onCommandResult((event, data) => {
+      if (data.success) {
+        updateStatus(`Command completed successfully.`);
+        enableActionButtons();
+      } else {
+        updateStatus(`Error: ${data.message}`);
+        enableActionButtons();
+      }
+    });
+  </script>
+</body>
+</html>

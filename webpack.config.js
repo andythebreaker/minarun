@@ -4,9 +4,18 @@ const Dotenv = require('dotenv-webpack');
 const { InjectManifest } = require('workbox-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const fs = require('fs');
+const dotenv = require('dotenv');
 
-var package_json_homepage = '/';
-function PUBLICURLreplace(indexHtmlPath) {//pathresolvepublicindexhtml) {
+// Load environment variables from .env file
+const envPath = path.resolve(__dirname, '.env');
+let publicUrl = './';
+let package_json_homepage = './';
+
+if (fs.existsSync(envPath)) {
+  const envConfig = dotenv.parse(fs.readFileSync(envPath));
+  publicUrl = envConfig.PUBLIC_URL || './';
+  package_json_homepage = publicUrl;
+} else {
   try {
     const packageJsonPath = path.resolve(__dirname, 'package.json');
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
@@ -17,10 +26,15 @@ function PUBLICURLreplace(indexHtmlPath) {//pathresolvepublicindexhtml) {
 
     // Remove domain name and port (if they exist)
     package_json_homepage = package_json_homepage.replace(/^[^\/]+\//, '');
+    
+    publicUrl = package_json_homepage;
   } catch (err) {
     console.log('\x1b[41m\x1b[32m%s\x1b[0m', ':(\n');
     console.warn('\x1b[41m\x1b[32m%s\x1b[0m', 'Warning: package.json not found or "homepage" key not found!');
   }
+}
+
+function PUBLICURLreplace(indexHtmlPath) {
   // function createTempHtmlFile() {
   //const indexHtmlPath = path.resolve(__dirname, 'public/index.html');
   const tmpDirPath = path.resolve(__dirname, 'tmp');
@@ -89,11 +103,10 @@ if ('production' === process.env.NODE_ENV) {
 
 module.exports = {
   context: __dirname,
-  entry: './src/index.js',
-  output: {
+  entry: './src/index.js',  output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
-    publicPath: `/${package_json_homepage}/`,
+    publicPath: publicUrl.startsWith('/') ? publicUrl : `/${publicUrl}/`,
   },
   devServer: {
     historyApiFallback: true,
