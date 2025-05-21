@@ -1,7 +1,7 @@
 {
   "name": "minarun",
   "version": "0.2.1",
-  "homepage": "https://gitname.github.io/minarun",
+  "homepage": "http://192.168.0.101:48489/./",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
@@ -94,20 +94,29 @@
     "workbox-webpack-plugin": "^6.4.1",
     "workbox-window": "^6.5.4",
     "xmlbuilder": "^15.1.1"
-  },
-  "scripts": {
+  },  "scripts": {
     "build-v0": "node scripts/build.js && sw-precache --config=sw-config.js --root='build/' --static-file-globs='build/**/!(*map*)'",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "webpack-dev-server": "NODE_ENV=development webpack-dev-server",
+    "webpack-dev-server": "webpack-dev-server",
     "dev": "webpack serve --mode=development",
-    "prod": "NODE_ENV=production webpack --mode=production && rm -r build && mv dist build",
+    "prod": "webpack --mode=production && (if exist build rmdir /s /q build) && move dist build",
     "serve": "npm run build && cd build && pubhtml",
     "start": "npm run webpack-dev-server",
-    "prestart": "cp pwa/* src/ && cp pwa/* public/ && node home_url_change.js > src/home_url_change.js",
+    "prestart": "node scripts/copy-pwa.js && node config/env-manager.js",
     "start-v0": "node scripts/start.js",
     "build": "npm run prestart && npm run prod",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "env": "node config/env-manager.js",
+    "env:dev": "node config/env-manager.js development",
+    "env:local": "node config/env-manager.js local",
+    "env:prod": "node config/env-manager.js production",    "build:dev": "node config/env-manager.js build development",
+    "build:local": "node config/env-manager.js build local",
+    "build:prod": "node config/env-manager.js build production",
+    "serve:dev": "node config/env-manager.js serve development",
+    "serve:local": "node config/env-manager.js serve local",
+    "serve:prod": "node config/env-manager.js serve production",
+    "check-config": "node config/check-config.js"
   },
   "eslintConfig": {
     "extends": [
