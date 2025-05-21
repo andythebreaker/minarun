@@ -1,7 +1,7 @@
 {
   "name": "minarun",
   "version": "0.2.1",
-  "homepage": "http://192.168.0.101:48489/./",
+  "homepage": "http://localhost:3000/./",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
@@ -94,7 +94,8 @@
     "workbox-webpack-plugin": "^6.4.1",
     "workbox-window": "^6.5.4",
     "xmlbuilder": "^15.1.1"
-  },  "scripts": {
+  },
+  "scripts": {
     "build-v0": "node scripts/build.js && sw-precache --config=sw-config.js --root='build/' --static-file-globs='build/**/!(*map*)'",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
@@ -110,7 +111,8 @@
     "env": "node config/env-manager.js",
     "env:dev": "node config/env-manager.js development",
     "env:local": "node config/env-manager.js local",
-    "env:prod": "node config/env-manager.js production",    "build:dev": "node config/env-manager.js build development",
+    "env:prod": "node config/env-manager.js production",
+    "build:dev": "node config/env-manager.js build development",
     "build:local": "node config/env-manager.js build local",
     "build:prod": "node config/env-manager.js build production",
     "serve:dev": "node config/env-manager.js serve development",
