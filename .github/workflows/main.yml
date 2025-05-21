@@ -20,17 +20,41 @@ jobs:
         node-version: '16.x'
         cache: 'npm'
     
-    - name: Initialize project
+    - name: Create environment files
       run: |
-        chmod +x ./init-project.sh
-        ./init-project.sh
+        # Create production environment file
+        echo "PUBLIC_URL=/minarun" > .env.production
+        echo "HOMEPAGE_URL=https://gitname.github.io/minarun" >> .env.production
+        echo "NODE_ENV=production" >> .env.production
+        
+        # Install dependencies
+        npm install
     
     - name: Setup production environment
       run: |
-        node config/env-manager.js production
-    
+        # Directly set homepage URL in package.json
+        node -e "const fs = require('fs'); const pkg = JSON.parse(fs.readFileSync('package.json')); pkg.homepage = 'https://gitname.github.io/minarun'; fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));"
+        
+        # Create home_url_change.js file
+        echo "//this is a auto gen. file, if want change homeurl, go to env config" > src/home_url_change.js
+        echo "const homepage_json = \"/minarun\";" >> src/home_url_change.js
+        echo "export const homepageUrl = homepage_json;" >> src/home_url_change.js
+        
+        # Copy production env to active env
+        cp .env.production .env
+        
     - name: Build application
-      run: npm run build:prod
+      run: |
+        # Copy PWA files first
+        node scripts/copy-pwa.js
+        
+        # Build with production environment
+        export NODE_ENV=production
+        npx webpack --mode=production
+        
+        # Create build directory and move dist contents
+        mkdir -p build
+        cp -r dist/* build/
       
     - name: Deploy react app to github pages
       uses: JamesIves/github-pages-deploy-action@v4
